@@ -1,0 +1,32 @@
+import heapq
+
+def dijkstra(edges, num_v, goal):
+    dist = [float('inf')] * num_v
+    dist[0] = 0
+    q = []
+    heapq.heappush(q, [0,[0]])
+
+    while len(q) > 0:
+        _, u = heapq.heappop(q)
+        last = u[-1]
+        if last == goal:
+            return u
+        for i in edges[last]:
+            if dist[i[0]] > dist[last] + i[1]:
+                dist[i[0]] = dist[last] + i[1]
+                heapq.heappush(q, [dist[last] + i[1], u + [i[0]]])
+
+    return dist
+
+
+edges = [
+    [[1, 4],[2,3]],
+    [[1, 4],[2,3], [4, 5]],
+    [[5, 2]],
+    [[4, 3]],
+    [[6, 2]],
+    [[4, 1],[6,4]],
+    []
+]
+
+print(dijkstra(edges, 7, 6))
